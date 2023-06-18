@@ -26,7 +26,7 @@ const vehicleSchema=mongoose.Schema({
         type:String,
         required:true,
     },
-    ownerId:{
+    owner:{
         type:String,
         required:true
     }

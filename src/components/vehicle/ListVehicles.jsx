@@ -1,8 +1,6 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 import RegisterVehicle from './RegisterVehicle'
 import Owner from './Owner'
-import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import ReactPaginate from 'react-paginate';
@@ -13,7 +11,7 @@ export default function ListVehicle() {
   const [vehicles, setVehicles] = useState([])
   //pagination
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 10;
+  const itemsPerPage = 2;
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage.selected);
   };
@@ -53,16 +51,25 @@ export default function ListVehicle() {
         }
       })
   }, [navigate])
+
+
   const handleLogout=()=>{
     localStorage.removeItem('token');
   navigate('/');
   }
+//to handle closing the form
+
+const registerVehicleFormRef = useRef(null);
+
+  
   return (
     <div className='bg-sub w-full fixed h-screen'>
 
 
 
-      <div className='mx-16'>
+
+      {/* <div className='mx-16 main'> */}
+      <div className={`mx-16 ${showVehicleForm ? 'opacity-50' : ''}`}>
         <div className='mt-10'>
 
           <h1 className='text-black font-bold text-2xl inline'>Welcome Admin!</h1>
@@ -93,14 +100,14 @@ export default function ListVehicle() {
 
             {displayedItems.map(vehicle => {
               return (
-                <tr key={vehicle.id}>
+                <tr key={vehicle._id} className='my-5'>
                   <td className="bg-white px-4 py-2 rounded-l-md" >{vehicle.chasisNumber} </td>
-                  <td className="bg-white px-4 py-2 rounded-l-md" >{vehicle.manufacturerCompany} </td>
-                  <td className="bg-white px-4 py-2 rounded-l-md" >{vehicle.manufacturerYear} </td>
-                  <td className="bg-white px-4 py-2 rounded-l-md" >{vehicle.price} </td>
-                  <td className="bg-white px-4 py-2 rounded-l-md" >{vehicle.plateNumber} </td>
-                  <td className="bg-white px-4 py-2 rounded-l-md" >{vehicle.modelName} </td>
-                  <td className="bg-white px-4 py-2 rounded-l-md" >{vehicle.plateNumber} </td>
+                  <td className="bg-white px-4 py-2" >{vehicle.manufacturerCompany} </td>
+                  <td className="bg-white px-4 py-2" >{vehicle.manufacturerYear} </td>
+                  <td className="bg-white px-4 py-2" >{vehicle.price} </td>
+                  <td className="bg-white px-4 py-2" >{vehicle.plateNumber} </td>
+                  <td className="bg-white px-4 py-2" >{vehicle.modelName} </td>
+                  <td className="bg-white px-4 py-2 rounded-r-md" >{vehicle.plateNumber} </td>
 
 
                 </tr>
@@ -117,16 +124,7 @@ export default function ListVehicle() {
 
           </tbody>
         </table>
-      </div>
-      {showVehicleForm && (
-
-        <RegisterVehicle onClose={toggleVehicleForm} />
-
-      )}
-      {showOwnerForm && (
-        <Owner onClose={toggleOwnerForm} />
-      )}
-      <div className="flex float-right mt-5 mx-16">
+        <div className="flex float-right mt-5 mx-16">
         <ReactPaginate
           previousLabel="Previous"
           nextLabel="Next"
@@ -153,6 +151,14 @@ export default function ListVehicle() {
       >
         Logout
       </button>
+      </div>
+      {showVehicleForm && (
+        <RegisterVehicle onClose={toggleVehicleForm} />
+      )}
+      {showOwnerForm && (
+        <Owner onClose={toggleOwnerForm} />
+      )}
+      
     </div>
   )
 }

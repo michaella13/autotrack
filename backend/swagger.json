@@ -1,0 +1,327 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "AutoTrack",
+    "description": "Vehicle management system",
+    "contact": {
+      "name": "INEZA Ange Michaella",
+      "email": "michaellaineza13@gmail.com"
+    }
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "USER OPERATIONS",
+      "description": "User Operations"
+    },
+    {
+      "name": "OWNER OPERATIONS",
+      "description": "Owner Operations"
+    },
+    {
+      "name": "VEHICLE OPERATIONS",
+      "description": "Vehicle Operations"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/signup": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "names": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "phoneNumber": {
+                  "example": "any"
+                },
+                "nationalID": {
+                  "example": "any"
+                },
+                "role": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/owner": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "names": {
+                  "example": "any"
+                },
+                "nationalID": {
+                  "example": "any"
+                },
+                "phoneNumber": {
+                  "example": "any"
+                },
+                "address": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/vehicle": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "chasisNumber": {
+                  "example": "any"
+                },
+                "manufacturerCompany": {
+                  "example": "any"
+                },
+                "manufacturerYear": {
+                  "example": "any"
+                },
+                "price": {
+                  "example": "any"
+                },
+                "plateNumber": {
+                  "example": "any"
+                },
+                "modelName": {
+                  "example": "any"
+                },
+                "owner": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/vehicles": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "names": {
+          "type": "string",
+          "example": "Michaella"
+        },
+        "email": {
+          "type": "string",
+          "example": "m@gmail.com"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "example": "078123454"
+        },
+        "nationalID": {
+          "type": "string",
+          "example": "1234754363487373"
+        },
+        "role": {
+          "type": "string",
+          "example": "admin"
+        },
+        "password": {
+          "type": "string",
+          "example": "admin"
+        }
+      }
+    },
+    "Owner": {
+      "type": "object",
+      "properties": {
+        "names": {
+          "type": "string",
+          "example": "Biziyaremye"
+        },
+        "nationalID": {
+          "type": "string",
+          "example": "1234754363487372"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "example": "0780910224"
+        },
+        "address": {
+          "type": "string",
+          "example": "Kigali"
+        }
+      }
+    },
+    "Vehicle": {
+      "type": "object",
+      "properties": {
+        "chasisNumber": {
+          "type": "string",
+          "example": "12345"
+        },
+        "manufacturerCompany": {
+          "type": "string",
+          "example": "Toyota"
+        },
+        "manufacturerYear": {
+          "type": "string",
+          "example": "2005"
+        },
+        "price": {
+          "type": "string",
+          "example": "12"
+        },
+        "plateNumber": {
+          "type": "string",
+          "example": "RAC234U"
+        },
+        "modelName": {
+          "type": "string",
+          "example": "RAV4"
+        },
+        "owner": {
+          "type": "string",
+          "example": "Biziyaremye"
+        }
+      }
+    }
+  }
+}

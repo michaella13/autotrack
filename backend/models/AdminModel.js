@@ -18,10 +18,16 @@ const adminSchema=mongoose.Schema({
         required:true,
         unique:true
       } , 
+      role:{
+        type:String,
+        default:'user',
+        enum:['admin','user']
+
+      },
       password:{
         type:String,
         required:true
-      } 
+      }
 })
 const Admin=mongoose.model('Admin',adminSchema)
 module.exports=Admin;

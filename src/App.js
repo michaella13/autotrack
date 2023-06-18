@@ -1,7 +1,5 @@
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
-import RegisterVehicle from './components/vehicle/RegisterVehicle';
-import Owner from './components/vehicle/Owner';
 import ListVehicle from './components/vehicle/ListVehicles';
 import { BrowserRouter as Router, Routes,Route } from 'react-router-dom';
 function App() {

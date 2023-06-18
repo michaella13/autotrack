@@ -3,7 +3,9 @@ const Vehicle=require('../models/VehicleModel')
 
 const createVehicle= async (req,res)=>{
     try{
-        const {chasisNumber,manufacturerCompany,manufacturerYear,price,plateNumber,modelName,ownerId}=await req.body;
+        const {chasisNumber,manufacturerCompany,manufacturerYear,price,plateNumber,modelName,owner}=await req.body;
+        console.log('chasis'+owner)
+        
         const vehicleExists=await Vehicle.findOne({plateNumber})
         if(vehicleExists){
             return res.json({message:"Vehicle already exists"}).status(409)
@@ -15,10 +17,16 @@ const createVehicle= async (req,res)=>{
         price,
         plateNumber,
         modelName,
-        ownerId
+        owner
     })
     vehicle.save()
-    return res.status(201).json({message:"Vehicle created successfully"});
+    .then(()=>{
+        return res.status(201).json({message:"Vehicle created successfully"});
+    })
+    .catch(err=>{
+        console.log("Error",err)
+    })
+    
     }
 
     catch(err){

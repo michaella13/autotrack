@@ -1,13 +1,13 @@
 import React from 'react'
-import car from '../../assets/car.png'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import ClearIcon from '@mui/icons-material/Clear';
 
 
-export default function Owner() {
+export default function Owner({onClose}) {
   const[message, setMessage]=useState('')
   const navigate=useNavigate()
 
@@ -56,8 +56,12 @@ export default function Owner() {
         },[navigate])
   return (
     
-    <div className='fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-sub p-8 rounded-md shadow-md w-2/5'>
+    <div className='w-full h-full bg-[rgb(0,0,0,0.5)] absolute top-0 left-0'>
+      <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-sub p-8 rounded-md shadow-md w-2/5'>
       <p className='bg-white text-center'>{message}</p>
+      <div>
+<ClearIcon onClick={onClose}/>
+</div>
       <h1 className='text-black font-bold text-lg text-center  '> Register Owner</h1>
 
         <form action="" onSubmit={formik.handleSubmit}>
@@ -122,6 +126,8 @@ export default function Owner() {
         
           <button type="submit" className="h-12 w-4/6 rounded-md text-white font-bold bg-secondary mt-2 mx-24" >Register Owner</button>
         </form>
+      </div>
+      
         
       </div>
     

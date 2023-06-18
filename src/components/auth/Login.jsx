@@ -42,6 +42,7 @@ export default function Login() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      
       axios.post('http://192.168.8.106:5000/login', values,config)
         .then(response => {
          localStorage.setItem("token",response.data.token)
@@ -50,6 +51,7 @@ export default function Login() {
 
         })
         .catch(err => {
+          
           console.log(err);
         })
     }

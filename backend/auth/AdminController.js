@@ -6,7 +6,7 @@ const Admin=require('../models/AdminModel')
 
 const signup = async(req,res)=>{
     try{
-         const {names,email, phoneNumber, nationalID,password}= await req.body;
+         const {names,email, phoneNumber, nationalID,role,password}= await req.body;
     const existingAdmin=await Admin.findOne({nationalID});
     console.log(existingAdmin)
 
@@ -25,6 +25,7 @@ const signup = async(req,res)=>{
         email:email,
         phoneNumber:phoneNumber,
         nationalID:nationalID,
+        role:role,
         password:hashedPassword,
         
     })
@@ -42,6 +43,7 @@ const login=async (req,res)=>{
     try{
         const {email, password}=req.body
         const admin=await Admin.findOne({email})
+        
         if(!admin){
             return res.json({message:"Invalid credentials"})
         }
@@ -49,9 +51,10 @@ const login=async (req,res)=>{
         if(!comparePassword){
             return res.json({ message: 'Invalid credentials' });
         }
-        const token=jwt.sign({adminId:admin._id},process.env.JWT_SECRET_KEY,{
+        const token=jwt.sign({role:admin.role},process.env.JWT_SECRET_KEY,{
             expiresIn:'1h'
         })
+        const role=admin.role;
         res.header('Authorization', `Bearer ${token}`).json({message:"Login Successful",token: `Bearer ${token}`}).status(200)
     }
     catch(err){

@@ -7,12 +7,17 @@ const auth=require('./routes/adminRoutes')
 const vehicles=require('./routes/vehicleRoutes')
 const owners=require('./routes/ownerRoutes')
 const connection=require('./utils/db')
-const {specs,swaggerUi}=require('./swagger')
+// const {specs,swaggerUi}=require('./swagger')
 const authenticateToken=require('./auth/authToken')
+
+//Swagger
+const swaggerJsDoc = require('./swagger.json')
+const swaggerUi=require('swagger-ui-express')
+
 
 connection()
 
-
+app.use("/documentation", swaggerUi.serve, swaggerUi.setup(swaggerJsDoc,false,{docExpansion:"none"}))
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(cors())
@@ -22,7 +27,7 @@ app.use(cors())
 app.use('/',auth)
 app.use('/api',authenticateToken,vehicles)
 app.use('/owners',authenticateToken,owners)
-app.use('/documentation',swaggerUi.serve,swaggerUi.setup(specs))
+// app.use('/documentation',swaggerUi.serve,swaggerUi.setup(specs))
 
 
 

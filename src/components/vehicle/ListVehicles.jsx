@@ -4,6 +4,7 @@ import Owner from './Owner'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import ReactPaginate from 'react-paginate';
+import jwtDecode from 'jwt-decode';
 
 export default function ListVehicle() {
   const [showOwnerForm, setShowOwnerForm] = useState(false)
@@ -31,6 +32,15 @@ export default function ListVehicle() {
 
   }
   const token = localStorage.getItem('token')
+  const decodeToken = () => {
+    try {
+      const decodedToken = jwtDecode(token);
+      // console.log("decoded token "+decodedToken['role']);
+      const role=decodedToken['role']
+    } catch (error) {
+      console.error('Failed to decode JWT token:', error);
+    }
+  };
   const config = {
     headers: {
       'Authorization': token,
@@ -38,6 +48,7 @@ export default function ListVehicle() {
     }
   }
   useEffect(() => {
+    decodeToken();
     axios.get('http://192.168.8.106:5000/api/vehicles', config)
       .then((response) => {
         setVehicles(response.data)

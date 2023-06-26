@@ -43,11 +43,12 @@ export default function Login() {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       
-      axios.post('http://192.168.8.106:5000/login', values,config)
+      axios.post('http://localhost:5000/api/auth/login', values)
         .then(response => {
          localStorage.setItem("token",response.data.token)
-          setMessage(response.data.message)
-          navigate('/vehicles')
+         localStorage.setItem("user",response.data.user.firstName)
+          setMessage(response.data.token);
+          navigate('/products')
 
         })
         .catch(err => {
@@ -56,26 +57,27 @@ export default function Login() {
         })
     }
   })
+  console.log('token '+message);
 
   return (
-    <div className='flex  bg-sub h-screen'>
-      <div className='bg-primary  flex flex-col items-center w-1/2  rounded-r-3xl'>
-        <h1 className='text-white font-bold text-3xl text-center mt-20  '> AutoTrack</h1>
-        <p className='text-white font-thin text-base text-center mt-5  '>Map all your vehicles to users at an instant!</p>
-        <img src={car} alt="car" className='mt-24' />
+    <div className='sm:flex sm:flex-row bg-sub sm:h-screen flex flex-col'>
+      <div className='bg-primary  sm:flex sm:flex-col sm:items-center sm:w-1/2  rounded-r-3xl xs:bg-red'>
+        <h1 className='text-white font-bold text-3xl text-center mt-20  '>Binary Supermarket</h1>
+        <p className='text-white font-thin text-base text-center mt-5  '>Get the products you need at an instant</p>
+        <img src={car} alt="car" className='w-2/3 h-2/3' />
       </div>
       <div className='flex flex-col w-1/2' >
         <div className=' items-center'>
         <p className='bg-white text-center'>{message}</p>
           <h1 className='text-black font-bold text-3xl text-center mt-20  '>Welcome back!</h1>
-          <p className='text-black   font-thin text-base text-center mt-5  '>Login to see vehicles and their users!</p>
+          <p className='text-black   font-thin text-base text-center mt-5  '>Login to start shopping</p>
         </div>
 
         <form action="" onSubmit={formik.handleSubmit} className='mt-7'>
 
 
 
-          <div className=' mx-24 my-8'>
+          <div className= 'lg:mx-24 lg:my-8 md:mx-10 my-8 mx-7'>
             <input
               className="w-11/12 border-b-2 border-green-900 focus:border-green-900 placeholder-gray-400  bg-sub outline-none my-2.5 "
               type="email"
@@ -94,7 +96,7 @@ export default function Login() {
 
 
 
-          <div className=' mx-24 my-8'>
+          <div className='lg:mx-24 lg:my-8 md:mx-10 my-8 mx-7'>
             <input
               className="w-11/12 border-b-2 border-green-900 focus:border-green-900 placeholder-gray-400  bg-sub outline-none my-2.5"
               type="password"
@@ -109,9 +111,9 @@ export default function Login() {
           </div>
 
 
-          <button type="submit" className="h-12 w-4/6 rounded-md text-white font-bold bg-secondary mt-2 mx-24" >Login</button>
+          <button type="submit" className="h-12 sm:w-4/6 w-full rounded-md text-white font-bold bg-secondary mx-14 mt-2 md:mx-14" >Login</button>
         </form>
-        <p className='text-black font-thin text-base  mt-10 ml-24 '>Don't have an account? <Link to='/signup' className='underline underline-offset-1'>Signup</Link></p>
+        <p className='text-black font-thin text-base mt-10 md:ml-24 text-center '>Don't have an account? <Link to='/signup' className='underline underline-offset-1'>Signup</Link></p>
       </div>
     </div>
   )

@@ -1,78 +1,86 @@
-import React, { useState, useEffect, useRef } from 'react';
-import RegisterVehicle from './RegisterVehicle'
-import Owner from './Owner'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import RegisterStudent from './RegisterStudent';
+
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
+
+// import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import ReactPaginate from 'react-paginate';
-import jwtDecode from 'jwt-decode';
+// import jwtDecode from 'jwt-decode';
 
 export default function ListVehicle() {
-  const [showOwnerForm, setShowOwnerForm] = useState(false)
-  const [showVehicleForm, setShowVehicleForm] = useState(false)
-  const [vehicles, setVehicles] = useState([])
+  const [showStudentForm, setShowStudentForm] = useState(false)
+  const [products, setProducts] = useState([])
+  const [productName, setProductName] = useState('')
   //pagination
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 2;
+  const itemsPerPage = 10;
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage.selected);
   };
-  const displayedItems = vehicles.slice(
+  const displayedItems = products.slice(
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
   );
 
-  const navigate = useNavigate();
-
-  const toggleOwnerForm = () => {
-    setShowOwnerForm(!showOwnerForm)
-  }
-  const toggleVehicleForm = () => {
-    console.log("Vehicle" + showVehicleForm)
-    setShowVehicleForm(!showVehicleForm)
-
-  }
-  const token = localStorage.getItem('token')
-  const decodeToken = () => {
-    try {
-      const decodedToken = jwtDecode(token);
-      // console.log("decoded token "+decodedToken['role']);
-      const role=decodedToken['role']
-    } catch (error) {
-      console.error('Failed to decode JWT token:', error);
-    }
-  };
-  const config = {
-    headers: {
-      'Authorization': token,
-      'Content-Type': 'application/json'
-    }
-  }
-  useEffect(() => {
-    decodeToken();
-    axios.get('http://192.168.8.106:5000/api/vehicles', config)
-      .then((response) => {
-        setVehicles(response.data)
-      })
-      .catch((err) => {
-        if (err.response.status == 401) {
-          navigate('/');
-        }
-        else {
-          console.log(err);
-        }
-      })
-  }, [navigate])
-
-
-  const handleLogout=()=>{
-    localStorage.removeItem('token');
-  navigate('/');
-  }
-//to handle closing the form
-
-const registerVehicleFormRef = useRef(null);
+  // const navigate = useNavigate();
 
   
+  const toggleStudentForm = (productName) => {
+    setShowStudentForm(!showStudentForm)
+    setProductName(productName)
+
+  }
+  // const token = localStorage.getItem('token')
+  // const decodeToken = () => {
+  //   try {
+  //     const decodedToken = jwtDecode(token);
+  //     // console.log("decoded token "+decodedToken['role']);
+  //     const role=decodedToken['role']
+  //   } catch (error) {
+  //     console.error('Failed to decode JWT token:', error);
+  //   }
+  // };
+  // const config = {
+  //   headers: {
+  //     'Authorization': token,
+  //     'Content-Type': 'application/json'
+  //   }
+  // }
+  useEffect(() => {
+    // decodeToken();
+    // axios.get('http://localhost:8000/students', config)
+    axios.get('http://localhost:5000/api/products')
+      .then((response) => {
+        setProducts(response.data)
+      })
+      .catch((err) => {
+        // if (err.response.status == 401) {
+        //   navigate('/');
+        // }
+        // else {
+        //   console.log(err);
+        // }
+        console.log(err);
+      })
+  })
+  
+
+
+  // const handleLogout=()=>{
+  //   localStorage.removeItem('token');
+  // navigate('/');
+  // }
+
+
+const handleBuy=(id)=>{
+  console.log(id)
+}
+
+
+
+
   return (
     <div className='bg-sub w-full fixed h-screen'>
 
@@ -80,58 +88,54 @@ const registerVehicleFormRef = useRef(null);
 
 
       {/* <div className='mx-16 main'> */}
-      <div className={`mx-16 ${showVehicleForm ? 'opacity-50' : ''}`}>
+      <div className={`mx-16 ${showStudentForm ? 'opacity-50' : ''}`}>
         <div className='mt-10'>
 
-          <h1 className='text-black font-bold text-2xl inline'>Welcome Admin!</h1>
+          <h1 className='text-black font-bold text-2xl inline'>Welcome!</h1>
 
 
           <div className='inline float-right'>
-            <input type="button" value="Register owner" className="h-10 w-48 rounded-md text-white font-bold bg-primary mx-5" onClick={toggleOwnerForm} />
-            <input type="button" value="Register Vehicle" className="h-10 w-48 rounded-md text-white font-bold bg-secondary" onClick={toggleVehicleForm} />
+            <input type="button" value="Purchased Report" className="h-10 w-48 rounded-md text-white font-bold bg-primary mx-5" />
+            
 
 
           </div>
         </div>
 
-        <h2 className='text-black font-light text-lg my-5'>List of Vehicles</h2>
+        <h2 className='text-black font-light text-lg my-5 overflow-x-auto'>List of Products</h2>
         <table className="table-auto w-full">
           <thead>
             <tr>
-              <th className="px-4 py-2">Chasis num.</th>
-              <th className="px-4 py-2">Manufact.</th>
-              <th className="px-4 py-2">Manufact.year</th>
-              <th className="px-4 py-2">Price(M)</th>
-              <th className="px-4 py-2">Plate</th>
-              <th className="px-4 py-2">Model Name</th>
-              <th className="px-4 py-2">Owner</th>
+          
+              <th className="px-4 py-2 text-left">ProductCode</th>
+              <th className="px-4 py-2 text-left">Name</th>
+              <th className="px-4 py-2 text-left">Type</th>
+              <th className="px-4 py-2 text-left">Price</th>
+              <th className="px-4 py-2 text-left">Buy</th>
             </tr>
           </thead>
           <tbody>
 
-            {displayedItems.map(vehicle => {
+            {displayedItems.map(product => {
               return (
-                <tr key={vehicle._id} className='my-5'>
-                  <td className="bg-white px-4 py-2 rounded-l-md" >{vehicle.chasisNumber} </td>
-                  <td className="bg-white px-4 py-2" >{vehicle.manufacturerCompany} </td>
-                  <td className="bg-white px-4 py-2" >{vehicle.manufacturerYear} </td>
-                  <td className="bg-white px-4 py-2" >{vehicle.price} </td>
-                  <td className="bg-white px-4 py-2" >{vehicle.plateNumber} </td>
-                  <td className="bg-white px-4 py-2" >{vehicle.modelName} </td>
-                  <td className="bg-white px-4 py-2 rounded-r-md" >{vehicle.plateNumber} </td>
+                <tr key={product.id} className='my-5'>
+                  <td className="bg-white px-4 py-2 rounded-l-md" >{product.productCode} </td>
+                  <td className="bg-white px-4 py-2" >{product.productName} </td>
+                  <td className="bg-white px-4 py-2" >{product.productType} </td>
+                  <td className="bg-white px-4 py-2" >{product.price} </td>
+                 
+                  <td className="bg-white px-4 py-2 rounded-r-md">
+                  <ShoppingCartIcon
+                    onClick={() => toggleStudentForm(product.productName)}
+                    style={{ color: 'red', cursor: 'pointer' }}
+                  />
+                </td>
 
 
                 </tr>
               )
             })}
-            {/* <td className="bg-white px-4 py-2 rounded-l-md">12345</td>
-          <td className="bg-white px-4 py-2">Toyota</td>
-          <td className="bg-white px-4 py-2">2013</td>
-          <td className="bg-white px-4 py-2">12</td>
-          <td className="bg-white px-4 py-2">RAF 200Y</td>
-          <td className="bg-white px-4 py-2">RAV4</td>
-          <td className="bg-white px-4 py-2 rounded-r-md">Jean Jacques</td> */}
-
+            
 
           </tbody>
         </table>
@@ -141,7 +145,7 @@ const registerVehicleFormRef = useRef(null);
           nextLabel="Next"
           breakLabel="..."
           breakClassName="break-me"
-          pageCount={Math.ceil(vehicles.length / itemsPerPage)}
+          pageCount={Math.ceil(products.length / itemsPerPage)}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
           onPageChange={handlePageChange}
@@ -156,18 +160,16 @@ const registerVehicleFormRef = useRef(null);
           disabledClassName="opacity-50 cursor-not-allowed"
         />
       </div>
-      <button
+      {/* <button
         className='absolute bottom-5 float-left mx-16 px-4 py-2 rounded-md bg-primary text-white'
         onClick={handleLogout}
       >
         Logout
-      </button>
+      </button> */}
       </div>
-      {showVehicleForm && (
-        <RegisterVehicle onClose={toggleVehicleForm} />
-      )}
-      {showOwnerForm && (
-        <Owner onClose={toggleOwnerForm} />
+      
+      {showStudentForm && (
+        <RegisterStudent onClose={toggleStudentForm} name={productName}/>
       )}
       
     </div>

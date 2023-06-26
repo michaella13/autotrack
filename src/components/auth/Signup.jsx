@@ -5,7 +5,6 @@
   import { Link } from 'react-router-dom'
   import axios from 'axios'
   import { useState } from 'react'
-  import { useEffect } from 'react'
   import { useNavigate } from 'react-router-dom';
   
 
@@ -19,26 +18,24 @@
   // },message)
       
     const validationSchema = Yup.object().shape({
-      names: Yup.string().required('Names are required'),
+      firstName: Yup.string().required('Names are required'),
       email: Yup.string().email('Invalid email').required('Email is required'),
-      phoneNumber: Yup.string().matches(/^\d{10}$/, 'Phone number must be 10 characters').required('Phone number is required'),
-      nationalID: Yup.string().matches(/^\d{16}$/, 'Should 16 characters').required('National Id is required'),
+      phone: Yup.string().matches(/^\d{10}$/, 'Phone number must be 10 characters').required('Phone number is required'),
       password: Yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
     })
     
       const formik = useFormik({
         initialValues: {
-          names: '',
+          firstName: '',
           email: '',
-          phoneNumber: '',
-          nationalID: '',
+          phone: '',
           password: '',
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-          axios.post('http://192.168.8.106:5000/signup',values)
+          axios.post('http://localhost:5000/api/auth/register',values)
           .then(response=>{
-            setMessage(response.data.message)
+            setMessage(response.data)
             navigate('/');
 
           })
@@ -47,21 +44,22 @@
           })
       }
     })
+    console.log()
     
 
     return (
       <div className='flex  bg-sub h-screen'>
         
         <div className='bg-primary  flex flex-col items-center w-1/2  rounded-r-3xl'>
-          <h1 className='text-white font-bold text-3xl text-center mt-20  '> AutoTrack</h1>
-          <p className='text-white font-thin text-base text-center mt-5  '>Map all your vehicles to users at an instant!</p>
-          <img src={car} alt="car" className='mt-24' />
+        <h1 className='text-white font-bold text-3xl text-center mt-20  '>Binary Supermarket</h1>
+        <p className='text-white font-thin text-base text-center mt-5  '>Get the products you need at an instant</p>
+          <img src={car} alt="car" className='w-2/3 h-2/3' />
         </div>
         <div className='flex flex-col w-1/2 ' >
           <div className=' items-center'>
           <p className='bg-white text-center'>{message}</p>
             <h1 className='text-black font-bold text-3xl text-center mt-20  '>Welcome!</h1>
-            <p className='text-black   font-thin text-base text-center mt-5  '>Signup new admin!</p>
+            <p className='text-black   font-thin text-base text-center mt-5  '>Create account to start shopping!</p>
           </div>
 
           <form action="" onSubmit={formik.handleSubmit}>
@@ -71,13 +69,27 @@
               className="w-11/12 border-b-2 border-green-900 focus:border-green-900 placeholder-gray-400  bg-sub outline-none my-2.5"
               type="text"
               placeholder="Names"
-              name="names"
-              value={formik.values.names}
+              name="firstName"
+              value={formik.values.firstName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            {formik.touched.names && formik.errors.names && <div className='text-sm text-error'>{formik.errors.names}</div>}
+            {formik.touched.firstName && formik.errors.firstName && <div className='text-sm text-error'>{formik.errors.firstName}</div>}
             </div>
+
+            <div className=' mx-24 my-5'>
+            <input
+              className="w-11/12 border-b-2 border-green-900 focus:border-green-900 placeholder-gray-400  bg-sub outline-none my-2.5 "
+              type="text"
+              placeholder="Phone"
+              name="phone"
+              value={formik.values.phone}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.phone && formik.errors.phone && <div className='text-sm text-error'>{formik.errors.phone}</div>}
+            </div>
+          
 
             <div className=' mx-24 my-5'>
             <input
@@ -92,31 +104,8 @@
             {formik.touched.email && formik.errors.email && <div className='text-sm text-error'>{formik.errors.email}</div>}
             </div>
 
-            <div className=' mx-24 my-5'>
-            <input
-              className="w-11/12 border-b-2 border-green-900 focus:border-green-900 placeholder-gray-400  bg-sub outline-none my-2.5 "
-              type="text"
-              placeholder="Phone"
-              name="phoneNumber"
-              value={formik.values.phoneNumber}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.phoneNumber && formik.errors.phoneNumber && <div className='text-sm text-error'>{formik.errors.phoneNumber}</div>}
-            </div>
-          
-            <div className=' mx-24 my-5'>
-            <input
-              className="w-11/12 border-b-2 border-green-900 focus:border-green-900 placeholder-gray-400  bg-sub outline-none my-2.5"
-              type="text"
-              placeholder="NationalID"
-              name="nationalID"
-              value={formik.values.nationalID}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.nationalID && formik.errors.nationalID && <div className='text-sm text-error'>{formik.errors.nationalID}</div>}
-            </div>
+           
+            
 
             <div className=' mx-24 my-5'>
             <input

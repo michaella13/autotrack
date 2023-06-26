@@ -13,15 +13,15 @@
   "basePath": "/",
   "tags": [
     {
-      "name": "USER OPERATIONS",
+      "name": "User",
       "description": "User Operations"
     },
     {
-      "name": "OWNER OPERATIONS",
+      "name": "Owner",
       "description": "Owner Operations"
     },
     {
-      "name": "VEHICLE OPERATIONS",
+      "name": "Vehicle",
       "description": "Vehicle Operations"
     }
   ],
@@ -35,6 +35,7 @@
   "paths": {
     "/signup": {
       "post": {
+        "tags":["User"],
         "description": "",
         "parameters": [
           {
@@ -80,6 +81,7 @@
     },
     "/login": {
       "post": {
+        "tags":["User"],
         "description": "",
         "parameters": [
           {
@@ -110,6 +112,7 @@
     },
     "/owner": {
       "post": {
+        "tags":["Owner"],
         "description": "",
         "parameters": [
           {
@@ -181,6 +184,7 @@
     },
     "/vehicle": {
       "post": {
+        "tags":["Vehicle"],
         "description": "",
         "parameters": [
           {
@@ -226,6 +230,7 @@
     },
     "/vehicles": {
       "get": {
+        "tags":["Vehicle"],
         "description": "",
         "parameters": [],
         "responses": {

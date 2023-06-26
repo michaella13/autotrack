@@ -10,7 +10,7 @@ function App() {
       <Route path="/signup" element={<Signup/>}/>
       {/* <Route path="/registerVehicle" element={<RegisterVehicle/>}/>
       <Route path="/owner" element={<Owner/>}/> */}
-      <Route path="/vehicles" element={<ListVehicle/>}/>
+      <Route path="/products" element={<ListVehicle/>} index={true}/>
     </Routes>
    </Router>
   );
